@@ -1,0 +1,9 @@
+alter session set "_oracle_script"=true;
+1. Grant Additional Privileges:
+In addition to the CREATE TABLE privilege, you might need to grant the following privileges to the user FILE_SERVICE:
+===============================================
+GRANT SELECT ANY DICTIONARY TO FILE_SERVICE;
+GRANT CREATE SEQUENCE TO FILE_SERVICE;
+GRANT UNLIMITED TABLESPACE TO FILE_SERVICE;
+GRANT CREATE TRIGGER TO FILE_SERVICE;
+===============================================

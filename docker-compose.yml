@@ -1,0 +1,30 @@
+version: '3.5'
+services:
+  api:
+    container_name: api
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
+      PORT: ${PORT}
+      FILE_SERVE_URL: ${FILE_SERVE_URL}
+    ports:
+      - "1007:${PORT}"
+    volumes:
+      - ./src:/app/src
+      - data:/app/backup   # Mount the data volume for backup
+
+  backup:
+    image: camptocamp/duplicity
+    command: ["bash", "-c", "duplicity /app/backup file:///backup_destination"]
+    volumes:
+      - data:/app/backup   # Mount the data volume for backup
+      - ./backup:/backup_destination  # Store backups on the host
+
+volumes:
+  data:
